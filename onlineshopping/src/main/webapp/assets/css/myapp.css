@@ -37,9 +37,10 @@ footer {
 	width: 100%;
 }
 
-/* .footer {
-	margin: 0;
-	position: absolute;
-	bottom: 15px;
-	heigth: 60px;
-} */
+.about {
+	padding-top: 10px;
+}
+
+.contact {
+	padding-top: 10px;
+}
