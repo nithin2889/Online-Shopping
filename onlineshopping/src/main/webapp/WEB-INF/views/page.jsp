@@ -23,12 +23,16 @@
 
 <script>
 	window.menu = '${title}';
+	window.contextRoot = '${contextRoot}';
 </script>
 
 <!-- Bootstrap Core CSS -->
 <link href="${css}/bootstrap.min.css" rel="stylesheet">
 <!-- Bootstrap Flatly Theme -->
 <%-- <link href="${css}/bootstrap-flatly-theme.css" rel="stylesheet"> --%>
+
+<!-- Data Table bootstrap -->
+<link href="${css}/dataTables.bootstrap.css" rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link href="${css}/myapp.css" rel="stylesheet">
@@ -56,22 +60,33 @@
 			<c:if test="${userClickContact == true}">
 				<%@ include file="contact.jsp"%>
 			</c:if>
-			
+
 			<!-- Load when user clicks view products -->
-			<c:if test="${userClickAllProducts == true or userClickCategoryProducts == true}">
+			<c:if
+				test="${userClickAllProducts == true or userClickCategoryProducts == true}">
 				<%@ include file="listProducts.jsp"%>
 			</c:if>
+			
+			<!-- Load when user clicks show product -->
+			<c:if
+				test="${userClickShowProduct == true}">
+				<%@ include file="singleProduct.jsp"%>
+			</c:if>			
 		</div>
 
 		<!-- Footer -->
 		<%@ include file="./shared/footer.jsp"%>
-		
+
 		<!-- Bootstrap core JavaScript -->
 		<script src="${js}/jquery.min.js"></script>
 		<script src="${js}/bootstrap.bundle.min.js"></script>
-		
+		<script src="${js}/jquery.min.js"></script>
+	
 		<!-- DataTable plugin -->
 		<script src="${js}/jquery.dataTables.js"></script>
+
+		<!-- DataTable bootstrap Script -->
+		<script src="${js}/dataTables.bootstrap.js"></script>
 
 		<!-- Self coded javascript file -->
 		<script src="${js}/myapp.js"></script>
