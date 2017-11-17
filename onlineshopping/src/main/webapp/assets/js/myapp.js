@@ -1,10 +1,11 @@
 $(function() {
 	// solving Active Menu problem
+	// The "menu" variable is set in the JavaScript window object. This provides the title
 	switch (menu) {
-	case 'About Us':
+	case 'About':
 		$('#about').addClass('active');
 		break;
-	case 'Contact Us':
+	case 'Contact':
 		$('#contact').addClass('active');
 		break;
 	case 'View Products':
@@ -270,7 +271,7 @@ $(function() {
 			errorPlacement : function(error, element) {
 				// Add the class of help-block
 				error.addClass('help-block');
-				// Add the error element after the input element
+				// Dynamically adds the error element after the input element
 				error.insertAfter(element);
 			}
 		});
