@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.learnwithme.onlineshopping.exception.ProductNotFoundException;
@@ -17,13 +18,16 @@ import com.learnwithme.shoppingbackend.dto.Product;
 @Controller
 public class PageController {
 	
+	
 	private static final Logger logger = LoggerFactory.getLogger(PageController.class);
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
 	@Autowired
 	private ProductDAO productDAO;
-
+	
+	ContextLoaderListener c;
+	
 	@RequestMapping(value={"/","/home","/index"})
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("page");

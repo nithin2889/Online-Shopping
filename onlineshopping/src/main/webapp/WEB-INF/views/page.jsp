@@ -60,8 +60,7 @@
 			</c:if>
 
 			<!-- Load when user clicks view products -->
-			<c:if
-				test="${userClickAllProducts == true or userClickCategoryProducts == true}">
+			<c:if test="${userClickAllProducts == true or userClickCategoryProducts == true}">
 				<%@ include file="listProducts.jsp"%>
 			</c:if>
 
