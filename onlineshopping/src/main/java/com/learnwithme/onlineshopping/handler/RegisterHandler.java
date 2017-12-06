@@ -1,6 +1,9 @@
 package com.learnwithme.onlineshopping.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.binding.message.MessageBuilder;
+import org.springframework.binding.message.MessageContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.learnwithme.onlineshopping.model.RegisterModel;
@@ -14,6 +17,9 @@ public class RegisterHandler {
 
 	@Autowired
 	private UserDAO userDAO;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	public RegisterModel init() {
 		return new RegisterModel();
@@ -33,10 +39,15 @@ public class RegisterHandler {
 		// Fetch the user
 		User user = model.getUser();
 		if(user.getRole() == "USER") {
+			// If the role of the user is "USER" then create a Cart and assign it to the User.
 			Cart cart = new Cart();
 			cart.setUser(user);
 			user.setCart(cart);
 		}
+		
+		// encode the password
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
 		// Save the user
 		userDAO.addUser(user);
 		
@@ -48,6 +59,33 @@ public class RegisterHandler {
 		// Save the address
 		userDAO.addAddress(billing);
 		
+		return transitionValue;
+	}
+	
+	public String validateUser(User user, MessageContext errorMessages) {
+		String transitionValue = "success";
+		
+		// When password doesn't match the confirm password we display an error message.
+		if(!(user.getPassword().equals(user.getConfirmPassword()))) {
+			errorMessages.addMessage(new MessageBuilder()
+					.error()
+					.source("confirmPassword")
+					.defaultText("Password doesn't match the confirm password")
+					.build());
+			
+			transitionValue="failure";
+		}
+		
+		// Check the uniqueness of the email id
+		if(userDAO.getByEmail(user.getEmail()) != null) {
+			errorMessages.addMessage(new MessageBuilder()
+					.error()
+					.source("email")
+					.defaultText("Email address is already in use")
+					.build());
+			
+			transitionValue="failure";
+		}
 		return transitionValue;
 	}
 	

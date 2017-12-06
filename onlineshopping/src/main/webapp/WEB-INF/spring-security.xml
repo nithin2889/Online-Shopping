@@ -1,0 +1,60 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd		
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+		
+	<context:component-scan base-package="com.learnwithme.shoppingbackend" />
+	
+	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+	<!-- To load the static resources without any security -->
+	<http pattern="/resources/**" security="none" />
+
+	<http>
+		<!-- Only ADMIN access -->
+		<intercept-url pattern="/manage/**" access="hasAuthority('ADMIN')" />
+		
+		<!-- Only registered USER access -->
+		<intercept-url pattern="/cart/**" access="hasAuthority('USER')" />
+		
+		<!-- Rest of the world -->
+		<intercept-url pattern="/**" access="permitAll" />
+		<form-login login-page="/login" />
+		
+		<!-- To deny the access for URLs to which the user doesn't have access -->
+		<access-denied-handler error-page="/access-denied" />
+		<logout  />
+		
+		<!-- Disabling CSRF is not recommended -->
+		<!-- <csrf disabled="true" /> -->
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<!-- <user-service>
+				Password is prefixed with {noop} to indicate to DelegatingPasswordEncoder 
+					that NoOpPasswordEncoder should be used. This is not safe for production, 
+					but makes reading in samples easier. Normally passwords should be hashed 
+					using BCrypt
+				<user name="nithin" password="nithin" authorities="USER, ADMIN" />
+			</user-service> -->
+			
+			<password-encoder ref="passwordEncoder" />
+			
+			<!-- JDBC user service. App connects with the DB to authenticate the user -->
+			<!-- dataSource comes from Hibernate Configuration File -->
+			<jdbc-user-service 
+				data-source-ref="dataSource" 
+				users-by-username-query="select email, password, enabled from user_detail where email = ?"
+				authorities-by-username-query="select email, role from user_detail where email = ?" />
+		
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

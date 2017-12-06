@@ -8,7 +8,7 @@
 					<h4>Personal Details</h4>
 				</div>
 				<div class="panel-body">
-					<!-- Display personal details -->
+					<!-- Displaying personal details from the flow scope's register model -->
 					<div class="text-center">
 						<h4>${registerModel.user.firstName} ${registerModel.user.lastName}</h4>
 						<h5>Email: ${registerModel.user.email}</h5>

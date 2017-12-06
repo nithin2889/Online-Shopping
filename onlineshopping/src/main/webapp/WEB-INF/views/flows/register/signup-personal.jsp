@@ -16,9 +16,11 @@
 							<label class="control-label col-md-4">First Name</label>
 							<div class="col-md-8">
 								<!-- The path value is linked from User.java -->
-								<sf:input type="text" path="firstName" class="form-control"
-									placeholder="First Name" />
-									
+								<sf:input type="text" path="firstName" class="form-control" placeholder="First Name" />
+								<!-- 
+									If the user did not enter any name in the text box then the errors element will be displayed
+									along with a message that we have specified in the model class' validation annotation.
+								-->
 								<sf:errors path="firstName" cssClass="help-block" element="em" />
 							</div>
 						</div>
@@ -65,6 +67,7 @@
 							<div class="col-md-8">
 								<sf:input type="password" path="confirmPassword"
 									class="form-control" placeholder="Re-enter Password" />
+								<sf:errors path="confirmPassword" cssClass="help-block" element="em" />
 							</div>
 						</div>
 						

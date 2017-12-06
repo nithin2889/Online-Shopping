@@ -4,11 +4,11 @@
       xsi:schemaLocation="http://www.springframework.org/schema/webflow
                           http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
     
-    <!-- Returning and adding inside the flow a register model instance implicitly -->                      
 	<var name="user" class="com.learnwithme.shoppingbackend.dto.User"/>
 	<var name="billing" class="com.learnwithme.shoppingbackend.dto.Address"/>
 	
-	<!-- Returning and adding inside the flow a register model instance explicitly -->
+	<!-- Composite Model. Another way to store an instance inside a flow scope -->
+	<!-- Returning and adding a register model (RegisterModel) instance explicitly inside the flow -->
 	<on-start>
 		<evaluate expression="registerHandler.init()" result="flowScope.registerModel" />
 	</on-start>
@@ -16,11 +16,18 @@
 	<!-- start state -->	
 	<view-state id="personal" view="flows/register/signup-personal" model="user">
 		<!-- Transition view -->
-		<transition on="billing" to="billing" />
+		<transition on="billing" to="validate" />
 		<on-exit>
 			<evaluate expression="registerHandler.addUser(flowScope.registerModel, user)" />
 		</on-exit>
 	</view-state>
+	
+	<action-state id="validate">
+		<evaluate expression="validateUser(user, messageContext)" />
+		<transition on="success" to="billing" />
+		<transition on="failure" to="personal" />		
+	</action-state>
+	
 	<view-state id="billing" view="flows/register/signup-billing" model="billing">
 		<!-- Transition view -->
 		<transition on="personal" to="personal" />
@@ -48,7 +55,7 @@
 	
 	<!-- Global transition -->
 	<global-transitions>
-		<transition on="home" to="home" />
+		<transition on="home" to="home" validate="false" />
 	</global-transitions>
 	
 </flow>

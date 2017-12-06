@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Table(name="user_detail")
 public class User implements Serializable {
 	/**
-	 * If we are storing anything inside the flow scope that is 
+	 * If we are storing anything inside the "Flow" scope that is 
 	 * provided by the Spring WebFlow then that particular model needs to be Serialized.
 	 * Otherwise, we will get a SerializationException.
 	 */
@@ -51,19 +52,11 @@ public class User implements Serializable {
 	
 	private boolean enabled = true;
 	
-	
 	// confirm password transient field
 	@Transient
 	private String confirmPassword;
-	
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
 
-	@OneToOne(mappedBy="user", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Cart cart;
 	
 	public Cart getCart() {
@@ -122,6 +115,12 @@ public class User implements Serializable {
 	}
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 	
 	/*

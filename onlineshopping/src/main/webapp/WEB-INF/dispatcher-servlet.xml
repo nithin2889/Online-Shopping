@@ -14,7 +14,6 @@
    http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd">
 	
 	<context:component-scan base-package="com.learnwithme.onlineshopping" />
-	<context:component-scan base-package="com.learnwithme.shoppingbackend" />
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -43,7 +42,9 @@
 	</wf:flow-registry>
 	
 	<!-- Helps us to resolve the view using viewFactoryCreator bean -->
-	<wf:flow-builder-services id="flowBuilderServices" view-factory-creator="viewFactoryCreator" />
+	<wf:flow-builder-services id="flowBuilderServices" 
+		view-factory-creator="viewFactoryCreator"
+		validator="validator" />
 	
 	<!-- Bean used to execute the web flow -->
 	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
@@ -61,4 +62,6 @@
 	</bean>
 	<!-- WEBFLOW CONFIGURATION ENDS -->
 
+	<!-- Validator Bean -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 </beans>

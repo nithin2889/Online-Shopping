@@ -3,7 +3,6 @@ package com.learnwithme.shoppingbackend.dao;
 import java.util.List;
 
 import com.learnwithme.shoppingbackend.dto.Address;
-import com.learnwithme.shoppingbackend.dto.Cart;
 import com.learnwithme.shoppingbackend.dto.User;
 
 public interface UserDAO {
@@ -22,7 +21,4 @@ public interface UserDAO {
 	// Alternate approach of getting the billing and shipping addresses and avoid multiple select queries
 	// Address getBillingAddress(int userId);
 	// List<Address> listShippingAddresses(int userId);
-	
-	// add a cart
-	boolean updateCart(Cart cart);
 }

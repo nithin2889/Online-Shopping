@@ -25,4 +25,34 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!-- 
+	Spring Security Configuration. DelegatingFilterProxy bean should not be created by us. Its implementation
+	comes from the Spring Security internal implementation. This listener will listen to the context changes and 
+	loads the context.
+	 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- To load the context from the spring-security.xml file -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- multiple files can be comma separated here -->
+		<param-value>/WEB-INF/spring-security.xml</param-value>
+	</context-param>
+	
+	<!-- 
+		This filter ties our application with the Spring Security framework.
+		springSecurityFilterChain is encapsulated within the http element inside 
+		the spring-security.xml file.	
+	 -->	 
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>
